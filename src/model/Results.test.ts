@@ -2,7 +2,7 @@ import {
     doToss,
     makeToss,
     makeFrame,
-    makeSet,
+    makeInning,
     makeGame,
     MISS,
     ON,
@@ -13,7 +13,7 @@ import {
 describe('Results model', () => {
     it('should add at the end', () => {
         const g = makeGame(
-            makeSet(
+            makeInning(
                 makeFrame(
                     makeToss(MISS),
                     makeToss(ON)

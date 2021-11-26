@@ -1,7 +1,16 @@
 import {
     createElement as e
-} from 'react';
+} from 'react'
+
+import * as Result from './model/Results'
+import Scoreboard from './Scoreboard'
+import Buttons from './Buttons'
 
 export function App() {
-    return e('div', [], 'Hello from react ts!');
+    return e(
+        'div',
+        null,
+        e(Scoreboard),
+        e(Buttons),
+    )
 }
