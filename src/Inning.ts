@@ -6,7 +6,7 @@ import * as Result from './model/Results'
 export default function Inning(s: Result.Inning) {
     return e(
         'div',
-        { className: 'Inning' },
+        { className: 'inning' },
         s.map((f: Result.Frame) => Frame(f))
     )
 }

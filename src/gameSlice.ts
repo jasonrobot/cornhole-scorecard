@@ -23,6 +23,9 @@ const sampleGame = Result.makeGame(
 
 const emptyGame: Result.Game = [[[]]]
 
+/**
+ * Recuder for game state
+ */
 function _throwBag(g: Result.Game, t: Result.Toss): Result.Game {
     // so we have the Game
     // game(frame(...), frame(toss(ON, ON), toss(MISS, IN)))

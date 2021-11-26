@@ -7,13 +7,22 @@ export const HOLE = 'o'
 
 export type Bag = typeof MISS | typeof ON | typeof OFF | typeof HOLE
 
-export type Toss = [Bag, Array<Bag>, Array<Bag>]
+export interface Toss {
+    bag: Bag
+    otherKnocked: Array<Bag>
+    ownKnocked: Array<Bag>
+}
+
 export function makeToss(
-    thrown: Bag,
+    bag: Bag,
     ownKnocked: Array<Bag> = [],
     otherKnocked: Array<Bag> = []
 ): Toss {
-    return [thrown, ownKnocked, otherKnocked]
+    return {
+        bag,
+        ownKnocked,
+        otherKnocked
+    }
 }
 
 export type Frame = Array<Toss>;
