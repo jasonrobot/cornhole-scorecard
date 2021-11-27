@@ -17,5 +17,8 @@ module.exports = {
     },
     buildOptions: {
         sourcemap: true
+    },
+    testOptions: {
+        files: ['**/*.test.ts']
     }
 };

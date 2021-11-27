@@ -2,24 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import * as Result from './model/Results'
 
-const sampleGame = Result.makeGame(
-    Result.makeInning(
-        Result.makeFrame(
-            Result.makeToss(Result.MISS),
-            Result.makeToss(Result.ON)
-        ),
-        Result.makeFrame(
-            Result.makeToss(Result.HOLE),
-            Result.makeToss(Result.MISS)
-        )
-    )
-)
-
-// const emptyGame = Result.makeGame(
-//     Result.makeInning(
-//         Result.makeFrame()
-//     )
-// );
+import { last } from 'ramda'
 
 const emptyGame: Result.Game = [[[]]]
 
@@ -31,26 +14,20 @@ function _throwBag(g: Result.Game, t: Result.Toss): Result.Game {
     // game(frame(...), frame(toss(ON, ON), toss(MISS, IN)))
 
     // in a game, find the last Inning
-    let currentInning = g[g.length - 1]
-    // if the Inning is full, create a new one
-    if (currentInning.length === 4) {
-        currentInning = []
-        g.push(currentInning)
-    }
-    // in a Inning, find the last frame
-    let currentFrame: Result.Frame
-    if (currentInning.length === 0) {
-        currentFrame = []
-    } else {
-        currentFrame = currentInning[currentInning.length - 1]
-    }
-    // if the frame is full, create a new one
+    // @FIXME why do we need ! here
+    let currentInning = last(g)!
+    let currentFrame = last(currentInning)!
     if (currentFrame.length === 2) {
+        // new frame
+        if (currentInning.length === 4) {
+            // new inning
+            currentInning = []
+            g.push(currentInning)
+        }
         currentFrame = []
         currentInning.push(currentFrame)
     }
-    // add the toss to the last frame
-    currentFrame.push(t)
+    currentFrame.push(t);
     return g
 }
 
@@ -61,9 +38,7 @@ export const gameSlice = createSlice({
     },
     reducers: {
         throwBag: (state, action: PayloadAction<Result.Toss>) => {
-            return {
-                game: _throwBag(state.game, action.payload)
-            }
+            state.game = _throwBag(state.game, action.payload)
         }
     }
 })

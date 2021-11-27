@@ -2,20 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import * as Result from './model/Results'
 
-interface CurrentTossState {
-    bag: null | typeof Result.MISS | typeof Result.ON | typeof Result.HOLE
-    ownKnocked: {
-        off: number
-        hole: number
-    }
-    otherKnocked: {
-        off: number
-        hole: number
-    }
-}
+export type CurrentTossState = Omit<Result.Toss, 'bag'>
 
 const initialState: CurrentTossState = {
-    bag: null,
     ownKnocked: {
         off: 0,
         hole: 0,
@@ -24,35 +13,39 @@ const initialState: CurrentTossState = {
         off: 0,
         hole: 0,
     },
+}
+
+function knocker(count: number): number {
+    if (count === 3) {
+        return 0
+    }
+    return count + 1
 }
 
 export const currentTossSlice = createSlice({
     name: 'currentToss',
     initialState,
     reducers: {
-        tossMiss: (state) => {
-            state.bag = Result.MISS
-        },
-        tossOn: (state) => {
-            state.bag = Result.ON
-        },
-        tossHole: (state) => {
-            state.bag = Result.HOLE
-        },
         knockOwnOff: (state) => {
-            if (state.ownKnocked.off == 3) {
-                state.ownKnocked.off = 0
-            } else {
-                state.ownKnocked.off += 1
-            }
-        }
+            state.ownKnocked.off = knocker(state.ownKnocked.off)
+        },
+        knockOwnIn: (state) => {
+            state.ownKnocked.hole = knocker(state.ownKnocked.hole)
+        },
+        knockOtherOff: (state) => {
+            state.otherKnocked.off = knocker(state.otherKnocked.off)
+        },
+        knockOtherIn: (state) => {
+            state.otherKnocked.hole = knocker(state.otherKnocked.hole)
+        },
     }
 })
 
 export const {
-    tossMiss,
-    tossOn,
-    tossHole
+    knockOwnOff,
+    knockOwnIn,
+    knockOtherOff,
+    knockOtherIn,
 } = currentTossSlice.actions
 
 export default currentTossSlice.reducer

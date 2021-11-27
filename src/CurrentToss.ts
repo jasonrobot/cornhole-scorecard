@@ -5,5 +5,5 @@ import { useAppSelector } from './hooks'
 export default function CurrentToss() {
     const currentToss = useAppSelector(state => state.currentToss)
 
-    return e('div', null, currentToss.bag ?? 'none')
+    return e('div', null, 'none')
 }

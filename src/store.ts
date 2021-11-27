@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, createAction } from '@reduxjs/toolkit'
 import gameReducer from './gameSlice'
 import currentTossReducer from './currentTossSlice'
 
