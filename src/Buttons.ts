@@ -7,16 +7,22 @@ import {
     knockOwnIn,
     knockOtherOff,
     knockOtherIn,
+    resetCurrentToss,
 } from './currentTossSlice'
 
+import {throwBag} from './gameSlice'
+
 import {
-    throwBag
-} from './gameSlice'
+    useAppDispatch,
+    useAppSelector,
+} from './hooks'
 
-import { useAppDispatch, useAppSelector } from './hooks'
-import {AppDispatch} from './store'
+import {
+    AppDispatch,
+    RootState,
+} from './store'
 
-import { CurrentTossState } from './currentTossSlice'
+import {CurrentTossState} from './currentTossSlice'
 
 // send the current toss to the game
 // clear the current toss
@@ -39,29 +45,95 @@ function tossCompleter(
     }
 }
 
-export default function Buttons() {
-    const tossBagForResult = tossCompleter(
-        useAppDispatch(),
-        useAppSelector((state) => state.currentToss)
+// fetchTodoById is the "thunk action creator"
+export function tossThunkCreator(bag: Result.Bag) {
+    // fetchTodoByIdThunk is the "thunk function"
+    return function tossThunk(dispatch: any, getState: () => RootState) {
+        const {
+            currentToss: {
+                ownKnocked,
+                otherKnocked,
+            }
+        } = getState()
+
+        dispatch(
+            throwBag({
+                bag,
+                ownKnocked,
+                otherKnocked,
+            })
+        )
+        dispatch(resetCurrentToss())
+    }
+}
+
+function makeButton(text: string, id: string, onClick: () => void) {
+    return e(
+        'button',
+        {
+            id,
+            onClick,
+        },
+        text,
     )
+}
+
+export default function Buttons() {
+    const dis = useAppDispatch()
+    const {
+        ownKnocked: own,
+        otherKnocked: other,
+    } = useAppSelector((state) => state.currentToss)
 
     return e(
         'div',
         null,
-        e(
-            'button',
-            {id: 'miss', onClick: () => tossBagForResult(Result.MISS)},
-            'Miss'
+        e('div',
+          {className: 'knock-buttons'},
+          e('div',
+            {className: 'knock-own'},
+            makeButton(
+                `Own In (${own.hole})`,
+                'knock-own-in',
+                () => dis(knockOwnIn()),
+            ),
+            makeButton(
+                `Own Off (${own.off})`,
+                'knock-own-off',
+                () => dis(knockOwnOff()),
+            ),
+           ),
+          e('div',
+            {className: 'knock-other'},
+            makeButton(
+                `Other In (${other.hole})`,
+                'knock-other-in',
+                () => dis(knockOtherIn()),
+            ),
+            makeButton(
+                `Other Off (${other.off})`,
+                'knock-other-off',
+                () => dis(knockOtherOff()),
+            ),
+           ),
         ),
-        e(
-            'button',
-            {id: 'on', onClick: () => tossBagForResult(Result.ON)},
-            'On',
-        ),
-        e(
-            'button',
-            {id: 'in', onClick: () => tossBagForResult(Result.HOLE)},
-            'In',
+        e('div',
+          {className: 'score-buttons'},
+          makeButton(
+              'Miss',
+              'toss-miss',
+              () => dis(tossThunkCreator(Result.MISS))
+          ),
+          makeButton(
+              'On',
+              'toss-on',
+              () => dis(tossThunkCreator(Result.ON))
+          ),
+          makeButton(
+              'In',
+              'toss-hole',
+              () => dis(tossThunkCreator(Result.HOLE))
+          ),
         ),
     )
 }

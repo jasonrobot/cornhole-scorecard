@@ -38,6 +38,12 @@ export const currentTossSlice = createSlice({
         knockOtherIn: (state) => {
             state.otherKnocked.hole = knocker(state.otherKnocked.hole)
         },
+        resetCurrentToss: state => {
+            state.ownKnocked.off = 0
+            state.ownKnocked.hole = 0
+            state.otherKnocked.off = 0
+            state.otherKnocked.hole = 0
+        }
     }
 })
 
@@ -46,6 +52,7 @@ export const {
     knockOwnIn,
     knockOtherOff,
     knockOtherIn,
+    resetCurrentToss,
 } = currentTossSlice.actions
 
 export default currentTossSlice.reducer

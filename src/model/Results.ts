@@ -1,5 +1,11 @@
 // so what do we have
 
+import {
+    cond,
+    equals,
+    always,
+} from 'ramda'
+
 export const MISS = '-'
 export const ON = 'x'
 export const HOLE = 'o'
@@ -17,6 +23,18 @@ export interface Toss {
         hole: number
     }
 }
+export function makeToss(
+    bag: Bag,
+    ownKnocked: {off: number, hole: number} = {off: 0, hole: 0},
+    otherKnocked: {off: number, hole: number} = {off: 0, hole: 0},
+): Toss {
+    return {
+        bag,
+        ownKnocked,
+        otherKnocked,
+    }
+}
+
 
 export type Frame = Array<Toss>;
 export function makeFrame(a: Toss, b: Toss) { return [a, b] }
@@ -54,3 +72,71 @@ export function doToss(g: Game, t: Toss) {
     currentFrame.push(t)
     // return g
 }
+
+// function bagScoreReducer(acc, next) {
+//     if (next === ON) {
+//         return acc + 1
+//     } else if (next === HOLE) {
+//         return acc + 3
+//     } else {
+//         return acc
+//     }
+// }
+
+const getPoints: ((bag: Bag) => number) = cond([
+    [equals(MISS), always(0)],
+    [equals(ON), always(1)],
+    [equals(HOLE), always(3)],
+])
+
+export type Score = [0, number] | [number, 0]
+// export type Score = [number, number]
+
+export function scoreInning(inning: Inning): Score {
+    // add all the bag landings
+    const aTosses: Array<Toss> = inning.map(frame => frame[0]).filter(x => x)
+    const bTosses: Array<Toss> = inning.map(frame => frame[1]).filter(x => x)
+
+    let aScore = aTosses.reduce((acc: number, {bag}) => acc + getPoints(bag), 0)
+    let bScore = bTosses.reduce((acc: number, {bag}) => acc + getPoints(bag), 0)
+    // subtract one for every knock, on or in
+
+    //
+    // knocks = a's owns + b's others
+    let aBagKnocks = [
+        ...aTosses.map(({ownKnocked}) => ownKnocked.off),
+        ...bTosses.map(({otherKnocked}) => otherKnocked.off),
+    ].reduce((acc, next) => acc + next)
+
+    let bBagKnocks = [
+        ...bTosses.map(({ownKnocked}) => ownKnocked.off),
+        ...aTosses.map(({otherKnocked}) => otherKnocked.off),
+    ].reduce((acc, next) => acc + next)
+
+    aScore -= aBagKnocks
+    bScore -= bBagKnocks
+
+    const aKnockIn = [
+        ...aTosses.map(({ownKnocked}) => ownKnocked.hole),
+        ...bTosses.map(({otherKnocked}) => otherKnocked.hole),
+    ].reduce((acc, next) => acc + next)
+
+    const bKnockIn = [
+        ...bTosses.map(({ownKnocked}) => ownKnocked.hole),
+        ...aTosses.map(({otherKnocked}) => otherKnocked.hole),
+    ].reduce((acc, next) => acc + next)
+
+    // add 2 for each knock in (since an "ON" is lost with a knock in, so
+    // it's worth 3-1=2 points
+    aScore += aKnockIn * 2
+    bScore += bKnockIn * 2
+
+    const netScore = aScore - bScore
+    if (netScore < 0) {
+        return [0, -netScore]
+    } else {
+        return [netScore, 0]
+    }
+}
+
+
