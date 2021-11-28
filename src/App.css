@@ -1,0 +1,25 @@
+.game {
+    display: flex;
+    flex-direction: column;
+}
+
+.inning__frames {
+    display: flex;
+}
+
+.toss {
+    font-family: monospace;
+    font-size: x-large;
+    border: 1px solid;
+    padding: 1px;
+    margin: 1px;
+}
+
+.knock-buttons {
+    display: flex;
+}
+
+.knock-own, .knock-other {
+    display: flex;
+    flex-direction: column;
+}

@@ -12,7 +12,7 @@ export function App() {
     return e(
         'div',
         null,
-        e(Scoreboard),
         e(Buttons),
+        e(Scoreboard),
     )
 }

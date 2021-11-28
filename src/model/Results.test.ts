@@ -70,5 +70,15 @@ describe('Results model', () => {
             ]
             expect(scoreInning(inning)).toEqual([0, 1])
         })
+
+        it('should handle a crazy round', () => {
+            const inning: Inning = [
+                [makeToss(ON), makeToss(ON)],
+                [makeToss(ON), makeToss(ON)],
+                [makeToss(ON), makeToss(HOLE, {off: 0, hole: 1}, {off: 0, hole: 1})],
+                [makeToss(MISS, {off: 0, hole: 2}), makeToss(MISS)],
+            ]
+            expect(scoreInning(inning)).toEqual([2, 0])
+        })
     })
 });

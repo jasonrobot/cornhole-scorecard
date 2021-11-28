@@ -106,12 +106,12 @@ export function scoreInning(inning: Inning): Score {
     let aBagKnocks = [
         ...aTosses.map(({ownKnocked}) => ownKnocked.off),
         ...bTosses.map(({otherKnocked}) => otherKnocked.off),
-    ].reduce((acc, next) => acc + next)
+    ].reduce((acc, next) => acc + next, 0)
 
     let bBagKnocks = [
         ...bTosses.map(({ownKnocked}) => ownKnocked.off),
         ...aTosses.map(({otherKnocked}) => otherKnocked.off),
-    ].reduce((acc, next) => acc + next)
+    ].reduce((acc, next) => acc + next, 0)
 
     aScore -= aBagKnocks
     bScore -= bBagKnocks
@@ -119,12 +119,12 @@ export function scoreInning(inning: Inning): Score {
     const aKnockIn = [
         ...aTosses.map(({ownKnocked}) => ownKnocked.hole),
         ...bTosses.map(({otherKnocked}) => otherKnocked.hole),
-    ].reduce((acc, next) => acc + next)
+    ].reduce((acc, next) => acc + next, 0)
 
     const bKnockIn = [
         ...bTosses.map(({ownKnocked}) => ownKnocked.hole),
         ...aTosses.map(({otherKnocked}) => otherKnocked.hole),
-    ].reduce((acc, next) => acc + next)
+    ].reduce((acc, next) => acc + next, 0)
 
     // add 2 for each knock in (since an "ON" is lost with a knock in, so
     // it's worth 3-1=2 points
