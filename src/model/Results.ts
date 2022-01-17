@@ -10,7 +10,18 @@ export const MISS = '-'
 export const ON = 'x'
 export const HOLE = 'o'
 
+
 export type Bag = typeof MISS | typeof ON | typeof HOLE
+
+export interface Knock {
+    off: number
+    hole: number
+}
+
+export const NO_KNOCK = {
+    off: 0,
+    hole: 0,
+}
 
 export interface Toss {
     bag: Bag
@@ -25,8 +36,8 @@ export interface Toss {
 }
 export function makeToss(
     bag: Bag,
-    ownKnocked: {off: number, hole: number} = {off: 0, hole: 0},
-    otherKnocked: {off: number, hole: number} = {off: 0, hole: 0},
+    ownKnocked: Knock = NO_KNOCK,
+    otherKnocked: Knock = NO_KNOCK,
 ): Toss {
     return {
         bag,

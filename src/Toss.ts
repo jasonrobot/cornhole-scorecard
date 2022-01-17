@@ -14,8 +14,6 @@ export function buildTossString({bag, ownKnocked, otherKnocked}: Result.Toss): s
 
     let resultString = bag
 
-
-
     const ownKnockedString: string = [
         ...repeat(HOLE, ownKnocked.hole),
         ...repeat(ON, ownKnocked.off),

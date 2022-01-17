@@ -7,8 +7,8 @@ import {
     makeToss,
     MISS,
     ON,
-    OFF,
     HOLE,
+    NO_KNOCK,
 } from './model/Results'
 
 
@@ -26,8 +26,8 @@ describe('App', () => {
     describe('buildTossString', () => {
         const testCases: Array<[Toss, string]> = [
             [makeToss(ON), 'x'],
-            [makeToss(ON, [], [OFF]), 'x//x'],
-            [makeToss(ON, [HOLE], [OFF, OFF]), 'x/o/xx'],
+            [makeToss(ON, NO_KNOCK, {off: 1, hole: 0}), 'x//x'],
+            [makeToss(ON, {off: 0, hole: 1}, {off: 2, hole: 0}), 'x/o/xx'],
         ]
 
         testCases.forEach(([actual, expected]) => {
