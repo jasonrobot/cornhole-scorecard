@@ -1,3 +1,17 @@
+
+#root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+
 .game {
     display: flex;
     flex-direction: column;
@@ -5,14 +19,23 @@
 
 .inning__frames {
     display: flex;
+
 }
 
-.toss {
+.toss, .inning__score {
     font-family: monospace;
     font-size: x-large;
     border: 1px solid;
     padding: 1px;
     margin: 1px;
+    padding: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.toss {
+    height: 100%;
 }
 
 .knock-buttons {
@@ -22,4 +45,31 @@
 .knock-own, .knock-other {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
+
+.frame {
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.scoreboard {
+    width: 100%;
+}
+
+.buttons {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.score-buttons {
+  flex-grow: 1;
+  display: flex;
+}
+
+.score-buttons button {
+  flex-grow: 1;
+}
+
