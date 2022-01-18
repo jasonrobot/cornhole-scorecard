@@ -2,6 +2,8 @@ import { createElement as e } from 'react'
 
 import * as Result from './model/Results'
 
+import { useAppSelector } from './hooks'
+
 import {repeat} from 'ramda'
 
 import {
@@ -10,7 +12,12 @@ import {
     HOLE
 } from './model/Results'
 
-export function buildTossString({bag, ownKnocked, otherKnocked}: Result.Toss): string {
+export function buildTossString(toss: Result.Toss): string {
+    if (toss === undefined) {
+        return ''
+    }
+
+    const {bag, ownKnocked, otherKnocked} = toss
 
     let resultString = bag
 
@@ -41,11 +48,11 @@ export function buildTossString({bag, ownKnocked, otherKnocked}: Result.Toss): s
     }
 }
 
-export default function Toss(t: Result.Toss) {
+export default function Toss(thisToss: Result.Toss) {
+
     return e(
         'div',
         { className: 'toss' },
-        buildTossString(t)
+        thisToss ? buildTossString(thisToss) : null
     )
 }
-

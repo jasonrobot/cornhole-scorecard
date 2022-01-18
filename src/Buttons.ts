@@ -87,7 +87,7 @@ export default function Buttons() {
 
     return e(
         'div',
-        null,
+        {className: 'buttons'},
         e('div',
           {className: 'knock-buttons'},
           e('div',

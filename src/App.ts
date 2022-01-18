@@ -11,8 +11,8 @@ import Buttons from './Buttons'
 export function App() {
     return e(
         'div',
-        null,
-        e(Buttons),
+        {className: 'app'},
         e(Scoreboard),
+        e(Buttons),
     )
 }

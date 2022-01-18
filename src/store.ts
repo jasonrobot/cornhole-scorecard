@@ -7,6 +7,7 @@ const store = configureStore({
         game: gameReducer,
         currentToss: currentTossReducer,
     },
+    devTools: true,
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

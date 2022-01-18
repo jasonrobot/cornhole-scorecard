@@ -1,5 +1,5 @@
 import {
-    doToss,
+    // doToss,
     makeToss,
     makeFrame,
     makeInning,
@@ -34,51 +34,51 @@ describe('Results model', () => {
     it('should not add more than 4 to a frame', () => { })
 
     it('', () => { })
-    describe('scoreInning', () => {
-        it('should count basic scores', () => {
-            const inning: Inning = [
-                [makeToss(ON), makeToss(ON)],
-                [makeToss(ON), makeToss(MISS)],
-                [makeToss(ON), makeToss(HOLE)],
-                [makeToss(ON), makeToss(MISS)],
-            ]
+    // describe('scoreInning', () => {
+    //     it('should count basic scores', () => {
+    //         const inning: Inning = [
+    //             [makeToss(ON), makeToss(ON)],
+    //             [makeToss(ON), makeToss(MISS)],
+    //             [makeToss(ON), makeToss(HOLE)],
+    //             [makeToss(ON), makeToss(MISS)],
+    //         ]
 
-            expect(scoreInning(inning)).toEqual([0, 0])
-        })
+    //         expect(scoreInning(inning)).toEqual([0, 0])
+    //     })
 
-        it('should work on incomplete innings', () => {
-            const inning: Inning = [
-                [makeToss(ON), makeToss(ON)],
-                [makeToss(ON), makeToss(MISS)],
-            ]
+    //     it('should work on incomplete innings', () => {
+    //         const inning: Inning = [
+    //             [makeToss(ON), makeToss(ON)],
+    //             [makeToss(ON), makeToss(MISS)],
+    //         ]
 
-            expect(scoreInning(inning)).toEqual([1, 0])
-        })
+    //         expect(scoreInning(inning)).toEqual([1, 0])
+    //     })
 
-        it('should handle a knock off', () => {
-            const inning: Inning = [
-                [makeToss(ON), makeToss(ON)],
-                [makeToss(ON), makeToss(MISS, {off: 0, hole: 0}, {off: 1, hole: 0})],
-            ]
-            expect(scoreInning(inning)).toEqual([0, 0])
-        })
+    //     it('should handle a knock off', () => {
+    //         const inning: Inning = [
+    //             [makeToss(ON), makeToss(ON)],
+    //             [makeToss(ON), makeToss(MISS, {off: 0, hole: 0}, {off: 1, hole: 0})],
+    //         ]
+    //         expect(scoreInning(inning)).toEqual([0, 0])
+    //     })
 
-        it('should handle a knock in', () => {
-            const inning: Inning = [
-                [makeToss(ON), makeToss(ON)],
-                [makeToss(ON), makeToss(MISS, {off: 0, hole: 1})],
-            ]
-            expect(scoreInning(inning)).toEqual([0, 1])
-        })
+    //     it('should handle a knock in', () => {
+    //         const inning: Inning = [
+    //             [makeToss(ON), makeToss(ON)],
+    //             [makeToss(ON), makeToss(MISS, {off: 0, hole: 1})],
+    //         ]
+    //         expect(scoreInning(inning)).toEqual([0, 1])
+    //     })
 
-        it('should handle a crazy round', () => {
-            const inning: Inning = [
-                [makeToss(ON), makeToss(ON)],
-                [makeToss(ON), makeToss(ON)],
-                [makeToss(ON), makeToss(HOLE, {off: 0, hole: 1}, {off: 0, hole: 1})],
-                [makeToss(MISS, {off: 0, hole: 2}), makeToss(MISS)],
-            ]
-            expect(scoreInning(inning)).toEqual([2, 0])
-        })
-    })
+    //     it('should handle a crazy round', () => {
+    //         const inning: Inning = [
+    //             [makeToss(ON), makeToss(ON)],
+    //             [makeToss(ON), makeToss(ON)],
+    //             [makeToss(ON), makeToss(HOLE, {off: 0, hole: 1}, {off: 0, hole: 1})],
+    //             [makeToss(MISS, {off: 0, hole: 2}), makeToss(MISS)],
+    //         ]
+    //         expect(scoreInning(inning)).toEqual([2, 0])
+    //     })
+    // })
 });

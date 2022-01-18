@@ -7,6 +7,11 @@ export default function Game({game}: { game: Result.Game }) {
     return e(
         'div',
         { className: 'game' },
-        game.map((i: Result.Inning, index: number) => Inning(i, index + 1))
+        game.map((i: Result.Inning, index: number) => {
+            return Inning(
+                i,
+                index,
+            )
+        })
     )
 }

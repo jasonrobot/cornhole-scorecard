@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import * as Result from './model/Results'
 
-export type CurrentTossState = Omit<Result.Toss, 'bag'>
+export type CurrentTossState = Omit<Result.YesToss, 'bag'>
 
 const initialState: CurrentTossState = {
     ownKnocked: {
